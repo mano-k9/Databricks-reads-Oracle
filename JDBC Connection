@@ -1,3 +1,12 @@
+## use o Azure Key Vault para guardar o nome do usuário e a senha em segredo
+## os exemplos abaixo apenas usam os valores como exemplos
+## Para maiores informações, consulte a página:
+## https://docs.databricks.com/pt/security/secrets/secrets.html
+
+jdbcUsername = dbutils.secrets.get(scope = "oneenvkeys", key = "dbuser")
+jdbcPassword = dbutils.secrets.get(scope = "oneenvkeys", key = "dbpassword")
+
+
 %sql
 
 CREATE TABLE oracle_table
@@ -5,8 +14,8 @@ USING org.apache.spark.sql.jdbc
 OPTIONS (
   dbtable 'table_name',
   driver 'oracle.jdbc.driver.OracleDriver',
-  user 'username',
-  password 'pasword',
+  user jdbcUsername,
+  password jdbcPassword,
   url 'jdbc:oracle:thin://@<hostname>:1521/<db>')
 
 ## A seguir segue exemplos da Microsoft em 
