@@ -1,0 +1,8 @@
+empDF = spark.read \
+    .format("jdbc") \
+    .option("url", "jdbc:oracle:thin:username/password@//hostname:portnumber/SID") \
+    .option("dbtable", "hr.emp") \
+    .option("user", "db_user_name") \
+    .option("password", "password") \
+    .option("driver", "oracle.jdbc.driver.OracleDriver") \
+    .load()
