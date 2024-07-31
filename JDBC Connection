@@ -8,3 +8,69 @@ OPTIONS (
   user 'username',
   password 'pasword',
   url 'jdbc:oracle:thin://@<hostname>:1521/<db>')
+
+## A seguir segue exemplos da Microsoft em https://docs.databricks.com/pt/connect/external-systems/jdbc.html#language-python
+## Python
+employees_table = (spark.read
+  .format("jdbc")
+  .option("url", "<jdbc-url>")
+  .option("dbtable", "<table-name>")
+  .option("user", "<username>")
+  .option("password", "<password>")
+  .load()
+)
+
+employees_table.printSchema
+
+## Consulta:
+
+pushdown_query = "(select * from employees where emp_no < 10008) as emp_alias"
+
+employees_table = (spark.read
+  .format("jdbc")
+  .option("url", "<jdbc-url>")
+  .option("dbtable", pushdown_query)
+  .option("user", "<username>")
+  .option("password", "<password>")
+  .load()
+)
+
+## Controle de numero de linhas lidas usando a opção fetchSize
+
+employees_table = (spark.read
+  .format("jdbc")
+  .option("url", "<jdbc-url>")
+  .option("dbtable", "<table-name>")
+  .option("user", "<username>")
+  .option("password", "<password>")
+  .option("fetchSize", "100")
+  .load()
+)
+
+
+
+## SQL
+CREATE TEMPORARY VIEW employees_table_vw
+USING JDBC
+OPTIONS (
+  url "<jdbc-url>",
+  dbtable "<table-name>",
+  user '<username>',
+  password '<password>'
+)
+
+DESCRIBE employees_table_vw
+
+## Scala
+val employees_table = spark.read
+  .format("jdbc")
+  .option("url", "<jdbc-url>")
+  .option("dbtable", "<table-name>")
+  .option("user", "<username>")
+  .option("password", "<password>")
+  .load()
+
+employees_table.printSchema
+
+
+
