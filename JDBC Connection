@@ -1,0 +1,10 @@
+%sql
+
+CREATE TABLE oracle_table
+USING org.apache.spark.sql.jdbc
+OPTIONS (
+  dbtable 'table_name',
+  driver 'oracle.jdbc.driver.OracleDriver',
+  user 'username',
+  password 'pasword',
+  url 'jdbc:oracle:thin://@<hostname>:1521/<db>')
